@@ -8,8 +8,12 @@ class User(models.Model):
     user_email = models.EmailField(max_length=254)
     user_password = models.CharField(max_length=254)
 
+class UserOTP(models.Model):
+    user_email = models.CharField(primary_key=True, max_length=254)
+    user_otp = models.CharField(max_length=7)
 
 class playlist_user(models.Model):
+    
     username = models.CharField(max_length=200)
 
     def __str__(self):

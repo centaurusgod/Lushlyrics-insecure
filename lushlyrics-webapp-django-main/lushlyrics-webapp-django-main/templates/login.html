@@ -36,13 +36,15 @@
                     Password
                 </label>
                 <input type="password" class="form_input" name="password" placeholder="Password" required>
-                {% if not case %}
+                {% if case %}
                 <span style="color:#f79862;
                              padding-bottom:20px;
                              text-align:center;">Username or password invalid</span>
                 {% endif %}
                 <button class='btn btn_log_in' type="submit">Log in</button>
-                <div class="divider"></div>
+              
+                <p class='label center-align'>Forget Your Password?  <a href="/reset_user_password">Reset</a></p>
+                
                 <p class='label center-align'>Don't have an account?</p>
             <a class='btn btn_sign_up' href="/user_signup">Sign Up for Lushlyrics</a>
             </form>

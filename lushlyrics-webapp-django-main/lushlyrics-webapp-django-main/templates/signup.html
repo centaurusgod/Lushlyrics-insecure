@@ -20,7 +20,7 @@
 
         if (!strengthRegex.test(password)) {
             form.reportValidity();
-            confirm_password.setCustomValidity("Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, and one number");
+            confirm_password.setCustomValidity("Use a Strong Password");
         } else if (password !== confirm_password.value) {
             confirm_password.setCustomValidity("Passwords did not match");
         } else {
