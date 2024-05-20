@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -27,15 +28,52 @@ def default(request):
 
 
 def user_login_handler(request):
-    return render(request, "login.html")
+    if request.method == "GET":
+        return render(request, "login.html")
+    elif request.method == "POST":
+        return render(
+            request,
+        )
 
 
 def user_registration_handler(request):
     if request.method == "GET":
         return render(request, "signup.html")
-    if request.method=="POST":
-        user_name = request.data.user_name
-        
+    elif request.method == "POST":
+        # Retrieve form data
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        confirm_password = request.POST.get("confirm-password")
+
+        if password != confirm_password:
+            print("Error: Passwords don't match")
+            return render(request, "signup.html")
+
+        username_exists = User.objects.filter(username=username).exists()
+        email_exists = User.objects.filter(email=email).exists()
+
+        try:
+            if username_exists and email_exists:
+                return render(
+                    request, "signup.html", {"username": username, "email": email}
+                )
+            if username_exists:
+                return render(
+                    request, "signup.html", {"username": username}
+                )
+            if email_exists:
+                return render(request, "signup.html", {"email":email})
+
+            user = User.objects.create_user(username, email, password)
+            user.save()
+            return render(request, "login.html")
+        except IntegrityError as e:
+            print("Error:", e)
+            return render(request, "signup.html", {"username": username})
+
+        finally:
+            print("Do somethng")
 
 
 def playlist(request):
